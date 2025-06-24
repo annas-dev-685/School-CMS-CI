@@ -1,0 +1,63 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # image: my-ci3-app
+    container_name: cms_app
+    # (optional) mount for live code edits; remove if you want the baked‐in image only
+    volumes:
+      - ./:/var/www/html:delegated
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+    networks:
+      - ci-net
+    restart: unless-stopped
+
+  db:
+    image: mysql:5.7
+    container_name: ci3_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ci_db
+      MYSQL_USER: ciuser
+      MYSQL_PASSWORD: ci_pass
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    ports:
+      - "3306:3306"
+    networks:
+      - ci-net
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: ci3_phpmyadmin
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: rootpassword
+    ports:
+      - "8081:80"
+    networks:
+      - ci-net
+
+volumes:
+  db_data:
+
+networks:
+  ci-net:
+    driver: bridge

@@ -1,0 +1,13 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # if you’re serving from a sub-directory, adjust this:
+    RewriteBase /
+
+    # don’t rewrite existing files or directories
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # send everything else to index.php
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>

@@ -23,9 +23,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-@$config['base_url'] = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http");
-@$config['base_url'] .= "://" . $_SERVER['HTTP_HOST'];
-@$config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
+
+// at the top of config.php (just after defined('BASEPATH') check)
+$proto = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host  = $_SERVER['HTTP_HOST'];
+$path  = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+$config['base_url'] = rtrim($proto.'://'.$host.$path, '/') . '/';
+
+$config['base_url'] = 'https://symmetrical-carnival-g4pq7vgq66vjh9rvp-80.app.github.dev/';
+
+
+// @$config['base_url'] = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == "on") ? "https" : "http");
+// @$config['base_url'] .= "://" . $_SERVER['HTTP_HOST'];
+// @$config['base_url'] .= str_replace(basename($_SERVER['SCRIPT_NAME']), "", $_SERVER['SCRIPT_NAME']);
 
 /*
 |--------------------------------------------------------------------------

@@ -1,0 +1,18 @@
+{
+  "name": "annas685/school-cms-ci",
+  "description": "The CodeIgniter framework",
+  "type": "project",
+  "homepage": "https://codeigniter.com",
+  "license": "MIT",
+  "support": {
+    "forum": "http://forum.codeigniter.com/",
+    "wiki": "https://github.com/bcit-ci/CodeIgniter/wiki",
+    "irc": "irc://irc.freenode.net/codeigniter",
+    "source": "https://github.com/bcit-ci/CodeIgniter"
+  },
+  "require": {
+    "php": ">=5.3.7",
+    "codeigniter/framework": "3.1.*",
+    "tecnickcom/tcpdf": "^6.6.2"
+  }
+}
